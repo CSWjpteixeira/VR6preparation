@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -9,17 +10,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->customPlot->addGraph();
     //ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
 
-    QTimer *dataTimer = new QTimer(this);
-
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
     ui->customPlot->xAxis->setTicker(timeTicker);
+    ui->customPlot->xAxis->setRange(0, 21);
     ui->customPlot->axisRect()->setupFullAxesBox();
     ui->customPlot->yAxis->setRange(0, 10);
 
-    // setup a timer that repeatedly calls makeplot
-    QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
-    dataTimer->start(0); // Interval 0 means to refresh as fast as possible
+    dataTimer = new QTimer(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -27,26 +26,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::addPoint(double x, double y)
-{
-    qv_x.append(x);
-    qv_y.append(y);
-}
-
-void MainWindow::clearData()
-{
-    qv_x.clear();
-    qv_y.clear();
-
-}
-
-
 void MainWindow::makePlot(){
 
-    static QTime time(QTime::currentTime());
-
-    double key = time.elapsed()/1000.0; // time elapsed since start of demo, in seconds
-    static double lastPointKey = 0;
+    key = plotTimer.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+    double lastPointKey = 0;
     if(key<20){
         ui->customPlot->xAxis->setRange(0, 21);
     }
@@ -63,14 +46,47 @@ void MainWindow::makePlot(){
 
 void MainWindow::on_clearBtn_clicked()
 {
+
     ui->customPlot->graph(0)->data()->clear();
     ui->customPlot->replot();
+    plotTimer.restart();
 
+    dataTimer->stop();
+    ui->playBtn->setText("Play");
+    key=0;
+
+    ui->customPlot->xAxis->setRange(0, 21);
+    ui->customPlot->yAxis->setRange(0, 10);
 }
 
-void MainWindow::on_addValueBtn_clicked()
+void MainWindow::on_playBtn_clicked()
 {
-    addPoint(ui->Xspinbox->value(),ui->Yspinbox->value());
-    makePlot();
+    int timeAccumulator, timeElapsed=0;
+
+    if(ui->playBtn->text()=="Play"){
+        timeAccumulator=0;
+        plotTimer.start();
+        ui->playBtn->setText("Pause");
+        // setup a timer that repeatedly calls makeplot
+        QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
+        dataTimer->start(0); // Interval 0 means to refresh as fast as possible
+    }
+    else if(ui->playBtn->text()=="Resume"){
+        ui->playBtn->setText("Pause");
+        dataTimer->start(); // Interval 0 means to refresh as fast as possible
+        plotTimer.restart();
+        qDebug() << plotTimer;
+        plotTimer.addMSecs(timeAccumulator); ///// NAO FUNCIONA PORQUE?
+    }
+    else if(ui->playBtn->text()=="Pause"){
+        ui->playBtn->setText("Resume");
+        dataTimer->stop();
+        timeElapsed=plotTimer.elapsed();
+        timeAccumulator=timeAccumulator+timeElapsed;
+        qDebug() << timeElapsed;
+        qDebug() << timeAccumulator;
+    }
+
+
 
 }

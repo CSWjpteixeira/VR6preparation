@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[5];
-    char stringdata0[64];
+    char stringdata0[60];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,11 +35,11 @@ QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
 QT_MOC_LITERAL(1, 11, 8), // "makePlot"
 QT_MOC_LITERAL(2, 20, 0), // ""
 QT_MOC_LITERAL(3, 21, 19), // "on_clearBtn_clicked"
-QT_MOC_LITERAL(4, 41, 22) // "on_addValueBtn_clicked"
+QT_MOC_LITERAL(4, 41, 18) // "on_playBtn_clicked"
 
     },
     "MainWindow\0makePlot\0\0on_clearBtn_clicked\0"
-    "on_addValueBtn_clicked"
+    "on_playBtn_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -77,7 +77,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->makePlot(); break;
         case 1: _t->on_clearBtn_clicked(); break;
-        case 2: _t->on_addValueBtn_clicked(); break;
+        case 2: _t->on_playBtn_clicked(); break;
         default: ;
         }
     }

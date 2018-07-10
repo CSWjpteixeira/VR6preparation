@@ -12,7 +12,6 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -28,11 +27,9 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QPushButton *addValueBtn;
+    QPushButton *playBtn;
     QPushButton *clearBtn;
     QCustomPlot *customPlot;
-    QDoubleSpinBox *Yspinbox;
-    QDoubleSpinBox *Xspinbox;
     QMenuBar *menuBar;
     QMenu *menuMain_window;
     QToolBar *mainToolBar;
@@ -45,21 +42,15 @@ public:
         MainWindow->resize(734, 572);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        addValueBtn = new QPushButton(centralWidget);
-        addValueBtn->setObjectName(QStringLiteral("addValueBtn"));
-        addValueBtn->setGeometry(QRect(520, 20, 89, 25));
+        playBtn = new QPushButton(centralWidget);
+        playBtn->setObjectName(QStringLiteral("playBtn"));
+        playBtn->setGeometry(QRect(520, 20, 89, 25));
         clearBtn = new QPushButton(centralWidget);
         clearBtn->setObjectName(QStringLiteral("clearBtn"));
         clearBtn->setGeometry(QRect(620, 20, 89, 25));
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
         customPlot->setGeometry(QRect(100, 100, 551, 351));
-        Yspinbox = new QDoubleSpinBox(centralWidget);
-        Yspinbox->setObjectName(QStringLiteral("Yspinbox"));
-        Yspinbox->setGeometry(QRect(420, 20, 69, 26));
-        Xspinbox = new QDoubleSpinBox(centralWidget);
-        Xspinbox->setObjectName(QStringLiteral("Xspinbox"));
-        Xspinbox->setGeometry(QRect(330, 20, 69, 26));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -84,7 +75,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        addValueBtn->setText(QApplication::translate("MainWindow", "Add", nullptr));
+        playBtn->setText(QApplication::translate("MainWindow", "Play", nullptr));
         clearBtn->setText(QApplication::translate("MainWindow", "Clear", nullptr));
         menuMain_window->setTitle(QApplication::translate("MainWindow", "Main window", nullptr));
     } // retranslateUi
