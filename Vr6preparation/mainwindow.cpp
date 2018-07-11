@@ -84,13 +84,15 @@ void MainWindow::on_playBtn_clicked()
         QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
         dataTimer->start(0);
 
-        timer->start(40);
+        timer->start(70);
         //count++;
     }
     else if(ui->playBtn->text()=="Resume"){
         qWarning("Resumed");
         ui->playBtn->setText("Pause");
         dataTimer->start(0);
+
+         timer->start(40);/*Resume the veloci*/
     }
     else if(ui->playBtn->text()=="Pause"){
         qWarning("Paused");
@@ -256,10 +258,12 @@ void MainWindow::paintEvent(QPaintEvent *e)
         }
         if(p_end>=-56)
         {
+
             p_end--;
+
         }
     }
-//********CONDI-3*******************
+
 
 }
 //**************************************************************
@@ -272,4 +276,4 @@ void MainWindow::setPos(int new_pos)
     }
     emit valueChanged(new_pos);
 }
-
+//*************************************************************

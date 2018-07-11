@@ -24,7 +24,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -79,7 +79,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -92,7 +92,49 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuasfsafa">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionLoad_Configuration"/>
+   </widget>
+   <widget class="QMenu" name="menuErase_Plot">
+    <property name="title">
+     <string>Erase Plot</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuHide_Unhide">
+    <property name="title">
+     <string>Hide/Unhide</string>
+    </property>
+    <addaction name="actionHide_Speedometer"/>
+    <addaction name="actionHide_Plot_2D"/>
+   </widget>
+   <widget class="QMenu" name="menuExit">
+    <property name="title">
+     <string>Exit</string>
+    </property>
+   </widget>
+   <addaction name="menuasfsafa"/>
+   <addaction name="menuErase_Plot"/>
+   <addaction name="menuHide_Unhide"/>
+   <addaction name="menuExit"/>
   </widget>
+  <action name="actionLoad_Configuration">
+   <property name="text">
+    <string>Load Configuration</string>
+   </property>
+  </action>
+  <action name="actionHide_Speedometer">
+   <property name="text">
+    <string>Hide Speedometer</string>
+   </property>
+  </action>
+  <action name="actionHide_Plot_2D">
+   <property name="text">
+    <string>Hide Plot 2D</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
