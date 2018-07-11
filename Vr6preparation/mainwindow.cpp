@@ -92,7 +92,7 @@ void MainWindow::on_playBtn_clicked()
         ui->playBtn->setText("Pause");
         dataTimer->start(0);
 
-         timer->start(40);/*Resume the veloci*/
+         timer->start(70);/*Resume the veloci*/
     }
     else if(ui->playBtn->text()=="Pause"){
         qWarning("Paused");
@@ -162,25 +162,6 @@ void MainWindow::on_loadBtn_clicked()
             return;
         }
     }
-
-
-
-    /*
-
-    while(!xmlFile->atEnd() && !xmlFile->hasError()){
-        QXmlStreamReader::TokenType token = filename->readNext();
-
-        if(token == QXmlStreamReader::StartDocument) {continue;}
-        if(token == QXmlStreamReader::StartElement) {
-            if(xmlReader->name() =="name"){
-                continue;
-            }
-            if(xmlReader->name()=="id"){
-                qDebug() << xmlReader->readElementText();
-            }
-        }
-    }
-    */
 }
 
 //*****************************************************| Velocímetro |******************************************************************************
