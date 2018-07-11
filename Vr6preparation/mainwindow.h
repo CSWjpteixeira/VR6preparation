@@ -31,6 +31,8 @@ private slots:
 
     void on_exitBtn_clicked();
 
+    void on_loadBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 
