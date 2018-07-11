@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QtXml>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -109,4 +110,16 @@ void MainWindow::on_exitBtn_clicked()
 void MainWindow::on_loadBtn_clicked()
 {
     QString filename=QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)");
+
+    if(!filename->open(QIODevice::ReadOnly | QIODevice::Text)){
+        QMessageBox::critical(this,"Load Xml File Problem","Couldn't open xml file to load settings",QMessageBox::Ok);
+        return;
+    }
+    xmlReader = new QXmlStreamReader(filename);
+    while(!filename->atEnd() && !filename->hasError()){
+        QXmlStreamReader::TokenType token = filename->readNext();
+
+        if(token == QXmlStreamReader::StartDocument) {continue;}
+        if(token == QXml)
+    }
 }
