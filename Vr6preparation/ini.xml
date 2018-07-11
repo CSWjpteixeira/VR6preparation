@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+	<background>
+		(200,200,200)
+	</background>
+	<needlecolor>
+		(10,10,10)
+	</needlecolor>
+	<maxvelocity>
+		300
+	</maxvelocity>
+	<plotrange>
+		30
+	</plotrange>

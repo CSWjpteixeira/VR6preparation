@@ -27,11 +27,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //******|VelStart|************************************************
 
-    p_init = -60;
+    p_init = -56;
     p_end = 139;
     connect(timer,SIGNAL(timeout()),this,SLOT(update()));
     //connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
 
+    QString xmlFileString("/home/hmi/Desktop/Vr6preparation/Vr6preparation/ini.xml");
+
+    loadXmlFile(xmlFileString);
 
     this->setStyleSheet(backgroundcolor);
 }
@@ -39,6 +42,41 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::loadXmlFile(QString xmlFileString){
+
+    QFile xmlFile(xmlFileString);
+    QXmlStreamReader xmlReader;
+    xmlReader.setDevice(&xmlFile);
+    xmlReader.readNext();
+    xmlReader.readNext();
+    while(!xmlReader.isEndDocument()){
+        if(xmlReader.isStartElement()){
+            QString name = xmlReader.name().toString();
+            if(name == "background"){
+                QMessageBox::information(this,name,xmlReader.readElementText());
+                backgroundcolor="background-color: rgb" + xmlReader.readElementText() + ";";
+                xmlReader.readNext();
+                xmlReader.readNext();
+
+            }
+            else {
+                xmlReader.readNext();
+                xmlReader.readNext();
+            }
+        }
+        else if(xmlReader.isEndElement()){
+            xmlReader.readNext();
+            xmlReader.readNext();
+        }
+        if(xmlReader.hasError()){
+            qDebug() << "XML Error: " << xmlReader.errorString().data();
+            return;
+        }
+    }
+    xmlReader.clear();
+    xmlFile.close();
 }
 
 void MainWindow::makePlot(){
@@ -83,20 +121,18 @@ void MainWindow::on_playBtn_clicked()
         // setup a timer that repeatedly calls makeplot
         QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
         dataTimer->start(0);
-
         timer->start(40);
-        //count++;
     }
     else if(ui->playBtn->text()=="Resume"){
         qWarning("Resumed");
         ui->playBtn->setText("Pause");
         dataTimer->start(0);
+        timer->start(40);
     }
     else if(ui->playBtn->text()=="Pause"){
         qWarning("Paused");
         dataTimer->stop();
         ui->playBtn->setText("Resume");
-
         timer->stop();
     }
 
@@ -126,57 +162,15 @@ void MainWindow::on_exitBtn_clicked()
 
 void MainWindow::on_loadBtn_clicked()
 {
-    QString filename=QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)");
-
-    if(!filename->open(QIODevice::ReadOnly | QIODevice::Text)){
+    QString filename= QFileDialog::getOpenFileName(this,tr("Open File"),"/home/hmi/Desktop","All Files(*.*);;XML File (*.xml)");
+    QFile testFile(filename);
+    if(!testFile.open(QIODevice::ReadOnly | QIODevice::Text)){
         QMessageBox::critical(this,"Load Xml File Problem","Couldn't open xml file to load settings",QMessageBox::Ok);
+        loadXmlFile("~/Vr6preparation/ini.xml");
         return;
     }
-    QXmlStreamReader xmlReader;
-
-    xmlReader.setDevice(&xmlFile);
-    xmlReader.readNext();
-    xmlReader.readNext();
-    while(!xmlReader.isEndDocument()){
-        if(xmlReader.isStartElement()){
-            QString name = xmlReader.name().toString();
-            if(name == "firstname"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-                xmlReader.readNext();
-                xmlReader.readNext();
-
-            }
-            else {
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-        }
-        else if(xmlReader.isEndElement()){
-            xmlReader.readNext();
-            xmlReader.readNext();
-        }
-        if(xmlReader.hasError()){
-            qDebug() << "XML Error: " << xmlReader.errorString().data();
-            return;
-        }
-    }
-
-
-
-    /*
-
-    while(!xmlFile->atEnd() && !xmlFile->hasError()){
-        QXmlStreamReader::TokenType token = filename->readNext();
-
-        if(token == QXmlStreamReader::StartDocument) {continue;}
-        if(token == QXmlStreamReader::StartElement) {
-            if(xmlReader->name() =="name"){
-                continue;
-            }
-            if(xmlReader->name()=="id"){
-                qDebug() << xmlReader->readElementText();
-            }
-        }
+    else{
+        loadXmlFile(filename);
     }
 }
 
@@ -253,7 +247,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
             painter.drawLine(-88,0,-96,0);
             painter.rotate(20.0);
         }
-        if(p_end>=-61)
+        if(p_end>=-56)
         {
             p_end--;
         }

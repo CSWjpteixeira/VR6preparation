@@ -1,6 +1,13 @@
 <?xml version="1.0"?>
-	<students>
-		<student>
-			<firstname>mina</firstname>
-		</student>
-	</students>
+<background>
+(100,100,100)
+</background>
+<needlecolor>
+
+</needlecolor>
+<maxvelocity>
+
+</maxvelocity>
+<plotrange>
+
+</plotrange>

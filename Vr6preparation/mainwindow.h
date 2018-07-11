@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
     QTimer *dataTimer;
     QTime plotTimer;
     double key;
+
     QString backgroundcolor;
 
 
@@ -28,6 +29,7 @@ public:
 
 public slots:
     void setPos(int new_pos);
+    void loadXmlFile(QString xmlFileString);
 
 private slots:
     void makePlot();
