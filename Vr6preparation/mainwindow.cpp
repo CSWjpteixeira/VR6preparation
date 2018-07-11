@@ -23,6 +23,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Both on");
     ui->comboBox->addItem("Speedometer only");
     ui->comboBox->addItem("Graph only");
+
+    //******|VelStart|************************************************
+
+    p_init = -60;
+    p_end = 139;
+    connect(timer,SIGNAL(timeout()),this,SLOT(update()));
+    //connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
 }
 
 MainWindow::~MainWindow()
@@ -72,6 +79,9 @@ void MainWindow::on_playBtn_clicked()
         // setup a timer that repeatedly calls makeplot
         QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
         dataTimer->start(0);
+
+        timer->start(40);
+        //count++;
     }
     else if(ui->playBtn->text()=="Resume"){
         qWarning("Resumed");
@@ -82,7 +92,10 @@ void MainWindow::on_playBtn_clicked()
         qWarning("Paused");
         dataTimer->stop();
         ui->playBtn->setText("Resume");
+
+        timer->stop();
     }
+
 
 }
 
@@ -110,7 +123,7 @@ void MainWindow::on_exitBtn_clicked()
 void MainWindow::on_loadBtn_clicked()
 {
     QString filename=QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)");
-
+/*
     if(!filename->open(QIODevice::ReadOnly | QIODevice::Text)){
         QMessageBox::critical(this,"Load Xml File Problem","Couldn't open xml file to load settings",QMessageBox::Ok);
         return;
@@ -122,4 +135,98 @@ void MainWindow::on_loadBtn_clicked()
         if(token == QXmlStreamReader::StartDocument) {continue;}
         if(token == QXml)
     }
+    */
 }
+
+//*****************************************************| Velocímetro |******************************************************************************
+void MainWindow::paintEvent(QPaintEvent *e)
+{
+
+    static const QPoint needle[3] = {
+        QPoint(7,8),
+        QPoint(-7,8),
+        QPoint(-40,-40)
+
+    };
+    int dim = qMin(width()/2,height()/2);
+    QPainter painter(this);
+    QColor needCol(0,0,0);
+
+    painter.translate(width() / 4, height()/2);
+    painter.scale(dim / 200.0, dim / 200.0);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+//****************************************************
+//posição agulha
+//****************************************************
+
+    if(p_init < p_end)
+    {
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(needCol);
+    painter.save();
+    painter.rotate(p_init);
+    painter.drawPolygon(needle,3);
+    painter.restore();
+    painter.setPen(needCol);
+
+
+      for(int i = 0; i <10; i++)
+    {
+        painter.drawLine(-88,0,-96,0);
+        painter.rotate(20.0);
+    }
+    p_init++;
+//****CONDI-1*****************
+  }else if(p_init > p_end)
+    {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(needCol);
+        painter.save();
+        painter.rotate(p_init);                  //alterhere
+        painter.drawPolygon(needle,3);
+        painter.restore();
+        painter.setPen(needCol);
+
+        for(int i = 0; i <10; i++)
+        {
+            painter.drawLine(-88,0,-96,0);
+            painter.rotate(20.0);
+        }
+        p_init--;
+
+//***CONDI-2******************
+    }else
+    {
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(needCol);
+        painter.save();
+        painter.rotate(p_end);
+        painter.drawPolygon(needle,3);
+        painter.restore();
+        painter.setPen(needCol);
+
+        for(int i = 0; i <10; i++)
+        {
+            painter.drawLine(-88,0,-96,0);
+            painter.rotate(20.0);
+        }
+        if(p_end>=-61)
+        {
+            p_end--;
+        }
+    }
+//********CONDI-3*******************
+
+}
+//**************************************************************
+void MainWindow::setPos(int new_pos)
+{
+
+    if(new_pos!=p_end)
+    {
+        p_end = new_pos;
+    }
+    emit valueChanged(new_pos);
+}
+

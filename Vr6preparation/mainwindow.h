@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QTime>
-
+#include <QDialog>
+#include <QtGui>
+#include <QtCore>
 
 namespace Ui {
 class MainWindow;
@@ -20,7 +22,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    int count;
+    QTimer *timer = new QTimer(this);
 
+public slots:
+    void setPos(int new_pos);
 
 private slots:
     void makePlot();
@@ -33,10 +39,20 @@ private slots:
 
     void on_loadBtn_clicked();
 
+    //void on_but1_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     QVector<double> qv_x,qv_y;
+    int p_init;
+    int p_end;
+
+protected:
+    void paintEvent(QPaintEvent *e);
+
+signals:
+    void valueChanged(int);
 };
 
 #endif // MAINWINDOW_H
