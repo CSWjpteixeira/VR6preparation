@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //******|VelStart|************************************************
 
-    p_init = -60;
+    p_init = -56;
     p_end = 139;
     connect(timer,SIGNAL(timeout()),this,SLOT(update()));
     //connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
@@ -126,9 +126,9 @@ void MainWindow::on_exitBtn_clicked()
 
 void MainWindow::on_loadBtn_clicked()
 {
-    QString filename=QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)");
+    QFile xmlFile(QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)"));
 
-    if(!filename->open(QIODevice::ReadOnly | QIODevice::Text)){
+    if(!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)){
         QMessageBox::critical(this,"Load Xml File Problem","Couldn't open xml file to load settings",QMessageBox::Ok);
         return;
     }
@@ -178,6 +178,7 @@ void MainWindow::on_loadBtn_clicked()
             }
         }
     }
+    */
 }
 
 //*****************************************************| Velocímetro |******************************************************************************
@@ -253,7 +254,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
             painter.drawLine(-88,0,-96,0);
             painter.rotate(20.0);
         }
-        if(p_end>=-61)
+        if(p_end>=-56)
         {
             p_end--;
         }
