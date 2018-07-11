@@ -10,10 +10,10 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
@@ -27,45 +27,71 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QPushButton *playBtn;
-    QPushButton *clearBtn;
     QCustomPlot *customPlot;
-    QMenuBar *menuBar;
-    QMenu *menuMain_window;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout;
+    QComboBox *comboBox;
+    QPushButton *loadBtn;
+    QPushButton *clearBtn;
+    QPushButton *exitBtn;
+    QPushButton *playBtn;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
+    QMenuBar *menuBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(734, 572);
+        MainWindow->resize(770, 414);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        playBtn = new QPushButton(centralWidget);
-        playBtn->setObjectName(QStringLiteral("playBtn"));
-        playBtn->setGeometry(QRect(520, 20, 89, 25));
-        clearBtn = new QPushButton(centralWidget);
-        clearBtn->setObjectName(QStringLiteral("clearBtn"));
-        clearBtn->setGeometry(QRect(620, 20, 89, 25));
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
-        customPlot->setGeometry(QRect(100, 100, 551, 351));
+        customPlot->setGeometry(QRect(380, 60, 371, 281));
+        widget = new QWidget(centralWidget);
+        widget->setObjectName(QStringLiteral("widget"));
+        widget->setGeometry(QRect(10, 10, 751, 31));
+        horizontalLayout = new QHBoxLayout(widget);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        comboBox = new QComboBox(widget);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+
+        horizontalLayout->addWidget(comboBox);
+
+        loadBtn = new QPushButton(widget);
+        loadBtn->setObjectName(QStringLiteral("loadBtn"));
+
+        horizontalLayout->addWidget(loadBtn);
+
+        clearBtn = new QPushButton(widget);
+        clearBtn->setObjectName(QStringLiteral("clearBtn"));
+
+        horizontalLayout->addWidget(clearBtn);
+
+        exitBtn = new QPushButton(widget);
+        exitBtn->setObjectName(QStringLiteral("exitBtn"));
+
+        horizontalLayout->addWidget(exitBtn);
+
+        playBtn = new QPushButton(centralWidget);
+        playBtn->setObjectName(QStringLiteral("playBtn"));
+        playBtn->setGeometry(QRect(10, 320, 80, 25));
         MainWindow->setCentralWidget(centralWidget);
-        menuBar = new QMenuBar(MainWindow);
-        menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 734, 22));
-        menuMain_window = new QMenu(menuBar);
-        menuMain_window->setObjectName(QStringLiteral("menuMain_window"));
-        MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
         MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
+        MainWindow->insertToolBarBreak(mainToolBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
-
-        menuBar->addAction(menuMain_window->menuAction());
+        menuBar = new QMenuBar(MainWindow);
+        menuBar->setObjectName(QStringLiteral("menuBar"));
+        menuBar->setGeometry(QRect(0, 0, 770, 22));
+        MainWindow->setMenuBar(menuBar);
 
         retranslateUi(MainWindow);
 
@@ -75,9 +101,10 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        loadBtn->setText(QApplication::translate("MainWindow", "Load", nullptr));
+        clearBtn->setText(QApplication::translate("MainWindow", "Erase", nullptr));
+        exitBtn->setText(QApplication::translate("MainWindow", "Exit", nullptr));
         playBtn->setText(QApplication::translate("MainWindow", "Play", nullptr));
-        clearBtn->setText(QApplication::translate("MainWindow", "Clear", nullptr));
-        menuMain_window->setTitle(QApplication::translate("MainWindow", "Main window", nullptr));
     } // retranslateUi
 
 };

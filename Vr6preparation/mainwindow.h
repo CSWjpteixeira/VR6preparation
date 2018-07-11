@@ -27,6 +27,10 @@ private slots:
     void on_clearBtn_clicked();
     void on_playBtn_clicked();
 
+    void on_comboBox_currentTextChanged(const QString &arg1);
+
+    void on_exitBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 
