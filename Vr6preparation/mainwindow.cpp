@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QtXml>
+#include <QXmlReader>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -30,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent) :
     p_end = 139;
     connect(timer,SIGNAL(timeout()),this,SLOT(update()));
     //connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
+
+
+    this->setStyleSheet(backgroundcolor);
 }
 
 MainWindow::~MainWindow()
@@ -123,19 +127,57 @@ void MainWindow::on_exitBtn_clicked()
 void MainWindow::on_loadBtn_clicked()
 {
     QString filename=QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)");
-/*
+
     if(!filename->open(QIODevice::ReadOnly | QIODevice::Text)){
         QMessageBox::critical(this,"Load Xml File Problem","Couldn't open xml file to load settings",QMessageBox::Ok);
         return;
     }
-    xmlReader = new QXmlStreamReader(filename);
-    while(!filename->atEnd() && !filename->hasError()){
+    QXmlStreamReader xmlReader;
+
+    xmlReader.setDevice(&xmlFile);
+    xmlReader.readNext();
+    xmlReader.readNext();
+    while(!xmlReader.isEndDocument()){
+        if(xmlReader.isStartElement()){
+            QString name = xmlReader.name().toString();
+            if(name == "firstname"){
+                QMessageBox::information(this,name,xmlReader.readElementText());
+                xmlReader.readNext();
+                xmlReader.readNext();
+
+            }
+            else {
+                xmlReader.readNext();
+                xmlReader.readNext();
+            }
+        }
+        else if(xmlReader.isEndElement()){
+            xmlReader.readNext();
+            xmlReader.readNext();
+        }
+        if(xmlReader.hasError()){
+            qDebug() << "XML Error: " << xmlReader.errorString().data();
+            return;
+        }
+    }
+
+
+
+    /*
+
+    while(!xmlFile->atEnd() && !xmlFile->hasError()){
         QXmlStreamReader::TokenType token = filename->readNext();
 
         if(token == QXmlStreamReader::StartDocument) {continue;}
-        if(token == QXml)
+        if(token == QXmlStreamReader::StartElement) {
+            if(xmlReader->name() =="name"){
+                continue;
+            }
+            if(xmlReader->name()=="id"){
+                qDebug() << xmlReader->readElementText();
+            }
+        }
     }
-    */
 }
 
 //*****************************************************| Velocímetro |******************************************************************************

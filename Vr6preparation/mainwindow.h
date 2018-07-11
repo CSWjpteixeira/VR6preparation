@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
     QTimer *dataTimer;
     QTime plotTimer;
     double key;
+    QString backgroundcolor;
 
 
 public:
