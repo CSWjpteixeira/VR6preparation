@@ -20,7 +20,10 @@ class MainWindow : public QMainWindow
     QTimer *dataTimer;
     QTime plotTimer;
     double key;
-    QString backgroundcolor;
+    QString backgroundcolor = "background-color: rgb(255,255,255);";
+    QString needlecolor = "255,255,255";
+    int maxspeed = 300;
+    int plotrange = 20;
 
 
 public:
@@ -50,6 +53,8 @@ private slots:
     void on_actionHidePlot_triggered();
 
     void on_actionErase_triggered();
+
+    void clearData();
 
 private:
     Ui::MainWindow *ui;

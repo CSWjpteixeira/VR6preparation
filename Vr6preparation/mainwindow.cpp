@@ -57,11 +57,11 @@ void MainWindow::makePlot(){
 
     key = plotTimer.elapsed()/1000.0; // time elapsed since start of demo, in seconds
     double lastPointKey = 0;
-    if(key<20){
-        ui->customPlot->xAxis->setRange(0, 21);
+    if(key<plotrange){
+        ui->customPlot->xAxis->setRange(0, plotrange);
     }
-    else if(key>20){
-        ui->customPlot->xAxis->setRange(key, 21, Qt::AlignRight);
+    else if(key>plotrange){
+        ui->customPlot->xAxis->setRange(key, plotrange, Qt::AlignRight);
     }
     if (key-lastPointKey > 0.5) {
       ui->customPlot->graph(0)->addData(key, abs((double)10*qSin(key/0.3843)));
@@ -256,6 +256,7 @@ void MainWindow::LoadFile(QString xmlFilePath){
             return;
         }
     }
+    clearData();
 }
 
 void MainWindow::on_actionLoad_triggered()
@@ -299,16 +300,7 @@ void MainWindow::on_actionHidePlot_triggered()
 
 void MainWindow::on_actionErase_triggered()
 {
-    qWarning("Data Cleared");
-    ui->customPlot->xAxis->setRange(0, 21);
-    ui->customPlot->yAxis->setRange(0, 10);
-    ui->customPlot->graph(0)->data()->clear();
-    ui->customPlot->replot();
-    plotTimer.restart();
-    timer->stop();
-    dataTimer->stop();
-    ui->playBtn->setText("Play");
-    key=0;
+    clearData();
 }
 
 void MainWindow::on_playBtn_clicked()
@@ -338,6 +330,22 @@ void MainWindow::on_playBtn_clicked()
 
         timer->stop();
     }
+
+
+}
+
+void MainWindow::clearData(){
+
+    qWarning("Data Cleared");
+    ui->customPlot->xAxis->setRange(0, 21);
+    ui->customPlot->yAxis->setRange(0, 10);
+    ui->customPlot->graph(0)->data()->clear();
+    ui->customPlot->replot();
+    plotTimer.restart();
+    timer->stop();
+    dataTimer->stop();
+    ui->playBtn->setText("Play");
+    key=0;
 
 
 }
