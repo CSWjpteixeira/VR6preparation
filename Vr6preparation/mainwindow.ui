@@ -18,65 +18,22 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>70</y>
-      <width>371</width>
-      <height>291</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
       <y>10</y>
-      <width>751</width>
-      <height>60</height>
+      <width>371</width>
+      <height>351</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QComboBox" name="comboBox"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="loadBtn">
-         <property name="text">
-          <string>Load</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="clearBtn">
-         <property name="text">
-          <string>Erase</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="exitBtn">
-         <property name="text">
-          <string>Exit</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
    </widget>
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
-      <width>351</width>
-      <height>281</height>
+      <y>10</y>
+      <width>361</width>
+      <height>351</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QGraphicsView" name="graphicsView"/>
-     </item>
      <item>
       <widget class="QPushButton" name="playBtn">
        <property name="text">
@@ -84,16 +41,11 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QGraphicsView" name="graphicsView"/>
+     </item>
     </layout>
    </widget>
-  </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -105,47 +57,41 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuasfsafa">
+   <widget class="QMenu" name="menuOptions">
     <property name="title">
-     <string>File</string>
+     <string>Options</string>
     </property>
-    <addaction name="actionLoad_Configuration"/>
+    <addaction name="actionLoad"/>
+    <addaction name="actionErase"/>
+    <addaction name="actionHideSpeedometer"/>
+    <addaction name="actionHidePlot"/>
+    <addaction name="actionExit"/>
    </widget>
-   <widget class="QMenu" name="menuErase_Plot">
-    <property name="title">
-     <string>Erase Plot</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuHide_Unhide">
-    <property name="title">
-     <string>Hide/Unhide</string>
-    </property>
-    <addaction name="actionHide_Speedometer"/>
-    <addaction name="actionHide_Plot_2D"/>
-   </widget>
-   <widget class="QMenu" name="menuExit">
-    <property name="title">
-     <string>Exit</string>
-    </property>
-   </widget>
-   <addaction name="menuasfsafa"/>
-   <addaction name="menuErase_Plot"/>
-   <addaction name="menuHide_Unhide"/>
-   <addaction name="menuExit"/>
+   <addaction name="menuOptions"/>
   </widget>
-  <action name="actionLoad_Configuration">
+  <action name="actionLoad">
    <property name="text">
     <string>Load Configuration</string>
    </property>
   </action>
-  <action name="actionHide_Speedometer">
+  <action name="actionErase">
+   <property name="text">
+    <string>Erase Plot</string>
+   </property>
+  </action>
+  <action name="actionHideSpeedometer">
    <property name="text">
     <string>Hide Speedometer</string>
    </property>
   </action>
-  <action name="actionHide_Plot_2D">
+  <action name="actionHidePlot">
    <property name="text">
     <string>Hide Plot 2D</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
    </property>
   </action>
  </widget>
@@ -154,7 +100,7 @@
   <customwidget>
    <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header>qcustomplot.h</header>
+   <header location="global">qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

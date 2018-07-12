@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->customPlot->addGraph();
     //ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
+    menuBar()->setNativeMenuBar(false);
 
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
@@ -21,9 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->customPlot->yAxis->setRange(0, 10);
 
     dataTimer = new QTimer(this);
-    ui->comboBox->addItem("Both on");
-    ui->comboBox->addItem("Speedometer only");
-    ui->comboBox->addItem("Graph only");
 
     //******|VelStart|************************************************
     //scene = new QGraphicsScene(this);
@@ -65,144 +63,8 @@ void MainWindow::makePlot(){
     ui->customPlot->replot();
 }
 
-void MainWindow::on_clearBtn_clicked()
-{
-    qWarning("Data Cleared");
-    ui->customPlot->xAxis->setRange(0, 21);
-    ui->customPlot->yAxis->setRange(0, 10);
-    ui->customPlot->graph(0)->data()->clear();
-    ui->customPlot->replot();
-    plotTimer.restart();
-
-    dataTimer->stop();
-    ui->playBtn->setText("Play");
-    key=0;
-
-}
-
-void MainWindow::on_playBtn_clicked()
-{
-    if(ui->playBtn->text()=="Play"){
-        qWarning("Started");
-        plotTimer.start();
-        ui->playBtn->setText("Pause");
-        // setup a timer that repeatedly calls makeplot
-        QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
-        dataTimer->start(0);
-
-        timer->start(70);
-        //count++;
-    }
-    else if(ui->playBtn->text()=="Resume"){
-        qWarning("Resumed");
-        ui->playBtn->setText("Pause");
-        dataTimer->start(0);
-
-         timer->start(70);/*Resume the veloci*/
-    }
-    else if(ui->playBtn->text()=="Pause"){
-        qWarning("Paused");
-        dataTimer->stop();
-        ui->playBtn->setText("Resume");
-
-        timer->stop();
-    }
-
-
-}
-
-void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
-{
-    if(arg1=="Both on"){
-        ui->customPlot->QWidget::show();
-        ui->graphicsView->show();
-
-    }
-    else if(arg1=="Speedometer only"){
-        ui->customPlot->QWidget::hide();
-        ui->graphicsView->show();
-
-    }
-    else if("Graph only"){
-        ui->customPlot->QWidget::show();
-        ui->graphicsView->hide();
-    }
-
-}
-
-void MainWindow::on_exitBtn_clicked()
-{
-    if(QMessageBox::Yes == QMessageBox::question(this,tr("Warning"),tr("Are you sure you want to exit?"))){
-        QApplication::quit();
-    }
-}
-
-void MainWindow::on_loadBtn_clicked()
-{
-    QFile xmlFile(QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)"));
-
-    if(!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)){
-        QMessageBox::critical(this,"Load Xml File Problem","Couldn't open xml file to load settings",QMessageBox::Ok);
-        return;
-    }
-    QXmlStreamReader xmlReader;
-
-    xmlReader.setDevice(&xmlFile);
-    xmlReader.readNext();
-    xmlReader.readNext();
-    while(!xmlReader.isEndDocument()){
-        if(xmlReader.isStartElement()){
-            QString name = xmlReader.name().toString();
-            if(name == "background"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-                QString test=xmlReader.readElementText();
-                backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
-                qDebug() << backgroundcolor;
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-            else if(name == "needlecolor"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-                QString test2=xmlReader.readElementText();
-                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
-                //qDebug() << backgroundcolor;
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-            else if(name == "maxvelocity"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-                QString test3=xmlReader.readElementText();
-                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
-                //qDebug() << backgroundcolor;
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-            else if(name == "plotrange"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-                QString test4=xmlReader.readElementText();
-                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
-                //qDebug() << backgroundcolor;
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-            else {
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-        }
-        else if(xmlReader.isEndElement()){
-            xmlReader.readNext();
-            xmlReader.readNext();
-        }
-        if(xmlReader.hasError()){
-            qDebug() << "XML Error: " << xmlReader.errorString().data();
-            return;
-        }
-    }
-}
-
 //*****************************************************| Velocímetro |******************************************************************************
-void MainWindow::paintEvent(QPaintEvent *e)
+void MainWindow::paintEvent(QPaintEvent *)
 {
 
 
@@ -306,3 +168,143 @@ void MainWindow::setPos(int new_pos)
     emit valueChanged(new_pos);
 }
 //*************************************************************
+
+void MainWindow::on_actionLoad_triggered()
+{
+    QFile xmlFile(QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)"));
+
+    if(!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QMessageBox::critical(this,"Load Xml File Problem","Couldn't open xml file to load settings",QMessageBox::Ok);
+        return;
+    }
+    QXmlStreamReader xmlReader;
+
+    xmlReader.setDevice(&xmlFile);
+    xmlReader.readNext();
+    xmlReader.readNext();
+    while(!xmlReader.isEndDocument()){
+        if(xmlReader.isStartElement()){
+            QString name = xmlReader.name().toString();
+            if(name == "background"){
+                QMessageBox::information(this,name,xmlReader.readElementText());
+                QString test=xmlReader.readElementText();
+                backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
+                qDebug() << backgroundcolor;
+                xmlReader.readNext();
+                xmlReader.readNext();
+            }
+            else if(name == "needlecolor"){
+                QMessageBox::information(this,name,xmlReader.readElementText());
+                QString test2=xmlReader.readElementText();
+                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
+                //qDebug() << backgroundcolor;
+                xmlReader.readNext();
+                xmlReader.readNext();
+            }
+            else if(name == "maxvelocity"){
+                QMessageBox::information(this,name,xmlReader.readElementText());
+                QString test3=xmlReader.readElementText();
+                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
+                //qDebug() << backgroundcolor;
+                xmlReader.readNext();
+                xmlReader.readNext();
+            }
+            else if(name == "plotrange"){
+                QMessageBox::information(this,name,xmlReader.readElementText());
+                QString test4=xmlReader.readElementText();
+                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
+                //qDebug() << backgroundcolor;
+                xmlReader.readNext();
+                xmlReader.readNext();
+            }
+            else {
+                xmlReader.readNext();
+                xmlReader.readNext();
+            }
+        }
+        else if(xmlReader.isEndElement()){
+            xmlReader.readNext();
+            xmlReader.readNext();
+        }
+        if(xmlReader.hasError()){
+            qDebug() << "XML Error: " << xmlReader.errorString().data();
+            return;
+        }
+    }
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    if(QMessageBox::Yes == QMessageBox::question(this,tr("Warning"),tr("Are you sure you want to exit?"))){
+        QApplication::quit();
+    }
+}
+
+void MainWindow::on_actionHideSpeedometer_triggered()
+{
+    if(ui->actionHideSpeedometer->text()=="Hide Speedometer"){
+        ui->actionHideSpeedometer->setText("Show Speedometer");
+        ui->graphicsView->hide();
+    }
+    else if(ui->actionHideSpeedometer->text()=="Show Speedometer"){
+        ui->actionHideSpeedometer->setText("Hide Speedometer");
+        ui->graphicsView->show();
+    }
+}
+
+void MainWindow::on_actionHidePlot_triggered()
+{
+    if(ui->actionHidePlot->text()=="Hide Plot 2D"){
+        ui->actionHidePlot->setText("Show Plot 2D");
+        ui->customPlot->hide();
+    }
+    else if(ui->actionHidePlot->text()=="Show Plot 2D"){
+        ui->actionHidePlot->setText("Hide Plot 2D");
+        ui->customPlot->show();
+    }
+}
+
+void MainWindow::on_actionErase_triggered()
+{
+    qWarning("Data Cleared");
+    ui->customPlot->xAxis->setRange(0, 21);
+    ui->customPlot->yAxis->setRange(0, 10);
+    ui->customPlot->graph(0)->data()->clear();
+    ui->customPlot->replot();
+    plotTimer.restart();
+    timer->stop();
+    dataTimer->stop();
+    ui->playBtn->setText("Play");
+    key=0;
+}
+
+void MainWindow::on_playBtn_clicked()
+{
+    if(ui->playBtn->text()=="Play"){
+        qWarning("Started");
+        plotTimer.start();
+        ui->playBtn->setText("Pause");
+        // setup a timer that repeatedly calls makeplot
+        QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
+        dataTimer->start(0);
+
+        timer->start(70);
+        //count++;
+    }
+    else if(ui->playBtn->text()=="Resume"){
+        qWarning("Resumed");
+        ui->playBtn->setText("Pause");
+        dataTimer->start(0);
+
+         timer->start(70);/*Resume the veloci*/
+    }
+    else if(ui->playBtn->text()=="Pause"){
+        qWarning("Paused");
+        dataTimer->stop();
+        ui->playBtn->setText("Resume");
+
+        timer->stop();
+    }
+
+
+}
