@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    this->setFixedSize(this->maximumSize());
     ui->setupUi(this);
     ui->customPlot->addGraph();
     //ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
@@ -202,9 +203,8 @@ void MainWindow::on_loadBtn_clicked()
 }
 
 //*****************************************************| Velocímetro |******************************************************************************
-void MainWindow::paintEvent(QPaintEvent *e)
+void MainWindow::paintEvent(QPaintEvent *)
 {
-
 
     static const QPoint needle[3] = {
         QPoint(7,8),
@@ -213,7 +213,6 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
     };
     int dim = qMin(width()/2,height()/2);
-
     //****testzone
     QPixmap *pix = new QPixmap(351,241);
     QPainter *painter = new QPainter(pix);
@@ -224,6 +223,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
     painter->translate(width() / 4.5, height()/2.3);
     painter->scale(dim / 200.0, dim / 200.0);
     painter->setRenderHint(QPainter::Antialiasing);
+
 
 //****************************************************
 //posição agulha
@@ -243,8 +243,15 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
       for(int i = 0; i <10; i++)
     {
-        painter->drawLine(-88,0,-96,0);
-        painter->rotate(20.0);
+          painter->drawLine(-88,0,-96,0);
+          painter->rotate(20.0);
+          for(int j = 0;j<10; j++)
+          {
+          painter->setRenderHint(QPainter::Antialiasing);
+          painter->drawText(-120,45,QString::number(i*20));
+          }
+
+
     }
     p_init++;
     scene->addPixmap(*pix);
@@ -264,6 +271,12 @@ void MainWindow::paintEvent(QPaintEvent *e)
         {
             painter->drawLine(-88,0,-96,0);
             painter->rotate(20.0);
+            for(int j = 0;j<10; j++)
+            {
+                painter->setRenderHint(QPainter::Antialiasing);
+                painter->drawText(-120,45,QString::number(i*20));
+            }
+
         }
         p_init--;
         scene->addPixmap(*pix);
@@ -283,6 +296,12 @@ void MainWindow::paintEvent(QPaintEvent *e)
         {
             painter->drawLine(-88,0,-96,0);
             painter->rotate(20.0);
+            for(int j = 0;j<10; j++)
+            {
+            painter->setRenderHint(QPainter::Antialiasing);
+            painter->drawText(-120,45,QString::number(i*20));
+            }
+
         }
         scene->addPixmap(*pix);
         if(p_end>=-56)
@@ -297,8 +316,7 @@ void MainWindow::paintEvent(QPaintEvent *e)
 }
 //**************************************************************
 void MainWindow::setPos(int new_pos)
-{
-
+{    
     if(new_pos!=p_end)
     {
         p_end = new_pos;

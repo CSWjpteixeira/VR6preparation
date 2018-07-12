@@ -54,7 +54,7 @@ private:
 
 
 protected:
-    void paintEvent(QPaintEvent *e);
+    void paintEvent(QPaintEvent *);
 
 signals:
     void valueChanged(int);
