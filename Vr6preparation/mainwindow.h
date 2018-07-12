@@ -70,6 +70,7 @@ private:
 
 protected:
     void paintEvent(QPaintEvent *);
+    //QColor needcol(int, int, int);
 
 signals:
     void valueChanged(int);

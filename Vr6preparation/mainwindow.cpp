@@ -88,10 +88,10 @@ void MainWindow::paintEvent(QPaintEvent *)
 
     };
     int dim = qMin(width()/2,height()/2);
-    //****testzone
+    //int R_color,G_color,B_color;
+
     QPixmap *pix = new QPixmap(351,241);
     QPainter *painter = new QPainter(pix);
-    //************
 
     int R_color, G_color, B_color;
 
@@ -148,7 +148,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     }
     p_init++;
     scene->addPixmap(*pix);
-//****CONDI-1*****************
+//****CONDI-2*****************
   }else if(p_init > p_end)
     {
         painter->setPen(Qt::NoPen);
@@ -173,7 +173,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         }
         p_init--;
         scene->addPixmap(*pix);
-//***CONDI-2******************
+//***CONDI-3******************
     }else
     {
         painter->setPen(Qt::NoPen);
@@ -215,6 +215,8 @@ void MainWindow::setPos(int new_pos)
         p_end = new_pos;
     }
     emit valueChanged(new_pos);
+
+
 }
 //*************************************************************
 
