@@ -1,3 +1,14 @@
-<?xml version="1.0"?>
-	<background>(100,100,100)
-	</background>
+<?xml version="1.0" encoding="UTF-8"?>
+<defaultsettings>
+	<backgroundsettings>	
+		<backgroundcolor>(100,100,100)</backgroundcolor>
+	</backgroundsettings>
+	<needlesettings>	
+		<needlecolor>(255,255,255)</needlecolor>
+	</needlesettings>
+	<velocitysettings>	
+		<maxspeed>300</maxspeed>
+	<plotsettings>	
+		<plotrange>20</plotrange>
+	</plotsettings>
+</defaultsettings>
