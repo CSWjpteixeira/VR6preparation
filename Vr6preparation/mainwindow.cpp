@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->comboBox->addItem("Graph only");
 
     //******|VelStart|************************************************
+    //scene = new QGraphicsScene(this);
+   // ui->graphicsView->setScene(scene);
 
     p_init = -56;
     p_end = 139;
@@ -34,6 +36,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     this->setStyleSheet(backgroundcolor);
+
+    //**new
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
 }
 
 MainWindow::~MainWindow()
@@ -109,12 +115,17 @@ void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
 {
     if(arg1=="Both on"){
         ui->customPlot->QWidget::show();
+        ui->graphicsView->show();
+
     }
     else if(arg1=="Speedometer only"){
         ui->customPlot->QWidget::hide();
+        ui->graphicsView->show();
+
     }
     else if("Graph only"){
         ui->customPlot->QWidget::show();
+        ui->graphicsView->hide();
     }
 
 }
@@ -168,6 +179,7 @@ void MainWindow::on_loadBtn_clicked()
 void MainWindow::paintEvent(QPaintEvent *e)
 {
 
+
     static const QPoint needle[3] = {
         QPoint(7,8),
         QPoint(-7,8),
@@ -175,12 +187,17 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
     };
     int dim = qMin(width()/2,height()/2);
-    QPainter painter(this);
-    QColor needCol(0,0,0);
 
-    painter.translate(width() / 4, height()/2);
-    painter.scale(dim / 200.0, dim / 200.0);
-    painter.setRenderHint(QPainter::Antialiasing);
+    //****testzone
+    QPixmap *pix = new QPixmap(351,241);
+    QPainter *painter = new QPainter(pix);
+    //************
+
+    QColor needCol(255,255,255);
+
+    painter->translate(width() / 4.5, height()/2.3);
+    painter->scale(dim / 200.0, dim / 200.0);
+    painter->setRenderHint(QPainter::Antialiasing);
 
 //****************************************************
 //posição agulha
@@ -188,59 +205,64 @@ void MainWindow::paintEvent(QPaintEvent *e)
 
     if(p_init < p_end)
     {
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(needCol);
-    painter.save();
-    painter.rotate(p_init);
-    painter.drawPolygon(needle,3);
-    painter.restore();
-    painter.setPen(needCol);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(needCol);
+    painter->save();
+    painter->rotate(p_init);
+    painter->drawPolygon(needle,3);
+    scene->addPixmap(*pix);
+    painter->restore();
+    painter->setPen(needCol);
 
 
       for(int i = 0; i <10; i++)
     {
-        painter.drawLine(-88,0,-96,0);
-        painter.rotate(20.0);
+        painter->drawLine(-88,0,-96,0);
+        painter->rotate(20.0);
     }
     p_init++;
+    scene->addPixmap(*pix);
 //****CONDI-1*****************
   }else if(p_init > p_end)
     {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(needCol);
-        painter.save();
-        painter.rotate(p_init);                  //alterhere
-        painter.drawPolygon(needle,3);
-        painter.restore();
-        painter.setPen(needCol);
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(needCol);
+        painter->save();
+        painter->rotate(p_init);                  //alterhere
+        painter->drawPolygon(needle,3);
+        scene->addPixmap(*pix);
+        painter->restore();
+        painter->setPen(needCol);
 
         for(int i = 0; i <10; i++)
         {
-            painter.drawLine(-88,0,-96,0);
-            painter.rotate(20.0);
+            painter->drawLine(-88,0,-96,0);
+            painter->rotate(20.0);
         }
         p_init--;
-
+        scene->addPixmap(*pix);
 //***CONDI-2******************
     }else
     {
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(needCol);
-        painter.save();
-        painter.rotate(p_end);
-        painter.drawPolygon(needle,3);
-        painter.restore();
-        painter.setPen(needCol);
+        painter->setPen(Qt::NoPen);
+        painter->setBrush(needCol);
+        painter->save();
+        painter->rotate(p_end);
+        painter->drawPolygon(needle,3);
+        scene->addPixmap(*pix);
+        painter->restore();
+        painter->setPen(needCol);
 
         for(int i = 0; i <10; i++)
         {
-            painter.drawLine(-88,0,-96,0);
-            painter.rotate(20.0);
+            painter->drawLine(-88,0,-96,0);
+            painter->rotate(20.0);
         }
+        scene->addPixmap(*pix);
         if(p_end>=-56)
         {
 
-            p_end--;
+           p_end--;
 
         }
     }

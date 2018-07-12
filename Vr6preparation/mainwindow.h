@@ -6,6 +6,7 @@
 #include <QDialog>
 #include <QtGui>
 #include <QtCore>
+#include <QGraphicsScene>
 
 namespace Ui {
 class MainWindow;
@@ -48,6 +49,9 @@ private:
     QVector<double> qv_x,qv_y;
     int p_init;
     int p_end;
+
+    QGraphicsScene *scene;
+
 
 protected:
     void paintEvent(QPaintEvent *e);
