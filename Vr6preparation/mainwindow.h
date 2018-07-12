@@ -32,16 +32,20 @@ public slots:
 
 private slots:
     void makePlot();
-    void on_clearBtn_clicked();
+
     void on_playBtn_clicked();
 
-    void on_comboBox_currentTextChanged(const QString &arg1);
-
-    void on_exitBtn_clicked();
-
-    void on_loadBtn_clicked();
-
     //void on_but1_clicked();
+
+    void on_actionLoad_triggered();
+
+    void on_actionExit_triggered();
+
+    void on_actionHideSpeedometer_triggered();
+
+    void on_actionHidePlot_triggered();
+
+    void on_actionErase_triggered();
 
 private:
     Ui::MainWindow *ui;
