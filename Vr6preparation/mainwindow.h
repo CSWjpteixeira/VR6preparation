@@ -20,7 +20,7 @@ class MainWindow : public QMainWindow
     QTimer *dataTimer;
     QTime plotTimer;
     double key;
-    QString backgroundcolor = "background-color: rgb(255,255,255);";
+
     QString needlecolor = "255,255,255";
     int maxspeed = 300;
     int plotrange = 20;
@@ -64,6 +64,8 @@ private:
     int p_end;
 
     QGraphicsScene *scene;
+
+    QString backgroundcolor ;//= "background-color: rgb(255,255,255);";
 
 
 protected:

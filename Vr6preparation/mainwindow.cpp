@@ -205,6 +205,41 @@ void MainWindow::LoadFile(QString xmlFilePath){
     QXmlStreamReader xmlReader;
 
     xmlReader.setDevice(&xmlFileLoaded);
+    QString name;
+    while(!xmlReader.atEnd() && !xmlReader.hasError()){
+        xmlReader.readNext();
+
+        if(xmlReader.isStartElement()){
+            //qDebug() << "element name: " << xmlReader.name().toString();
+            name = xmlReader.name().toString();
+        }
+        else if (xmlReader.isCharacters() && !xmlReader.isWhitespace()){
+            //qDebug() << "element name: " << xmlReader.text().toString();
+            if(name == "backgroundcolor"){
+                QString test=xmlReader.text().toString();
+                backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
+                qDebug() << backgroundcolor;
+            }
+            else if(name == "needlecolor"){
+                QString test=xmlReader.text().toString();
+                needlecolor=test; // REVER!!!!!!
+                qDebug() << needlecolor;
+            }
+            else if(name == "maxspeed"){
+                int testvalue=xmlReader.text().toInt();
+                maxspeed=testvalue; // REVER!!!!!!
+                qDebug() << maxspeed;
+            }
+            else if(name == "plotrange"){
+                int testvalue=xmlReader.text().toInt();
+                plotrange=testvalue; // REVER!!!!!!
+                qDebug() << plotrange;
+            }
+        }
+    }
+
+
+
     xmlReader.readNext();
     xmlReader.readNext();
     while(!xmlReader.isEndDocument()){
@@ -220,6 +255,7 @@ void MainWindow::LoadFile(QString xmlFilePath){
             }
             else if(name == "needlecolor"){
                 QMessageBox::information(this,name,xmlReader.readElementText());
+
                 QString test2=xmlReader.readElementText();
                 //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
                 //qDebug() << backgroundcolor;
@@ -327,7 +363,6 @@ void MainWindow::on_playBtn_clicked()
         qWarning("Paused");
         dataTimer->stop();
         ui->playBtn->setText("Resume");
-
         timer->stop();
     }
 
@@ -346,6 +381,9 @@ void MainWindow::clearData(){
     dataTimer->stop();
     ui->playBtn->setText("Play");
     key=0;
+
+    p_init = -56;
+    p_end = 139;
 
 
 }
