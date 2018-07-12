@@ -24,7 +24,7 @@ class MainWindow : public QMainWindow
     QString needlecolor = "255,255,255";
     int maxspeed = 300;
     int plotrange = 20;
-
+    QString backgroundcolor ;//= "background-color: rgb(255,255,255);";
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -65,7 +65,7 @@ private:
 
     QGraphicsScene *scene;
 
-    QString backgroundcolor ;//= "background-color: rgb(255,255,255);";
+
 
 
 protected:

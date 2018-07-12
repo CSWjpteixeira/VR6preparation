@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
 
 
-    this->setStyleSheet(backgroundcolor);
+
 
     //**new
     scene = new QGraphicsScene(this);
@@ -46,6 +46,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QString xmlPath = settings.value("Path","").toString();
     settings.endGroup();
     LoadFile(xmlPath);
+
+
+    this->setStyleSheet(backgroundcolor);
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -87,7 +93,25 @@ void MainWindow::paintEvent(QPaintEvent *)
     QPainter *painter = new QPainter(pix);
     //************
 
-    QColor needCol(255,255,255);
+    int R_color, G_color, B_color;
+
+    int x= needlecolor.indexOf(',');
+    QStringRef subString(&needlecolor,1,x-1);
+    R_color=subString.toInt();
+    //qDebug() << R_color;
+
+    int y= needlecolor.indexOf(',',x+1);
+    QStringRef subString2(&needlecolor,x+1,y-x-1);
+    G_color=subString2.toInt();
+    //qDebug() << G_color;
+
+    int z= needlecolor.indexOf(')',y+1);
+    QStringRef subString3(&needlecolor,y+1,z-y-1);
+    B_color=subString3.toInt();
+    //qDebug() << B_color;
+
+    QColor needCol(R_color,G_color,B_color);
+    QColor sc_Col(255,255,255);
 
     painter->translate(width() / 4.5, height()/2.3);
     painter->scale(dim / 200.0, dim / 200.0);
@@ -107,7 +131,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter->drawPolygon(needle,3);
     scene->addPixmap(*pix);
     painter->restore();
-    painter->setPen(needCol);
+    painter->setPen(sc_Col);
 
 
       for(int i = 0; i <10; i++)
@@ -134,7 +158,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         painter->drawPolygon(needle,3);
         scene->addPixmap(*pix);
         painter->restore();
-        painter->setPen(needCol);
+        painter->setPen(sc_Col);
 
         for(int i = 0; i <10; i++)
         {
@@ -159,7 +183,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         painter->drawPolygon(needle,3);
         scene->addPixmap(*pix);
         painter->restore();
-        painter->setPen(needCol);
+        painter->setPen(sc_Col);
 
         for(int i = 0; i <10; i++)
         {
@@ -217,22 +241,23 @@ void MainWindow::LoadFile(QString xmlFilePath){
             //qDebug() << "element name: " << xmlReader.text().toString();
             if(name == "backgroundcolor"){
                 QString test=xmlReader.text().toString();
-                backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
+                backgroundcolor="background-color: rgb"+test+";";
                 qDebug() << backgroundcolor;
             }
             else if(name == "needlecolor"){
                 QString test=xmlReader.text().toString();
-                needlecolor=test; // REVER!!!!!!
+                needlecolor=test;
+
                 qDebug() << needlecolor;
             }
             else if(name == "maxspeed"){
                 int testvalue=xmlReader.text().toInt();
-                maxspeed=testvalue; // REVER!!!!!!
+                maxspeed=testvalue;
                 qDebug() << maxspeed;
             }
             else if(name == "plotrange"){
                 int testvalue=xmlReader.text().toInt();
-                plotrange=testvalue; // REVER!!!!!!
+                plotrange=testvalue;
                 qDebug() << plotrange;
             }
         }
