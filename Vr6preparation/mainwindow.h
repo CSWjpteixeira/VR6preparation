@@ -7,6 +7,8 @@
 #include <QtGui>
 #include <QtCore>
 #include <QGraphicsScene>
+#include <QSettings>
+#include <QDebug>
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +28,8 @@ public:
     ~MainWindow();
     int count;
     QTimer *timer = new QTimer(this);
+
+    void LoadFile(QString xmlFilePath);
 
 public slots:
     void setPos(int new_pos);

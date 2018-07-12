@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QtXml>
 #include <QXmlReader>
+#include <QSettings>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -39,6 +40,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //**new
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
+
+    QSettings settings("../Vr6preparation/default.ini", QSettings::IniFormat);
+    settings.beginGroup("DefaultPath");
+    QString xmlPath = settings.value("Path","").toString();
+    settings.endGroup();
+    LoadFile(xmlPath);
 }
 
 MainWindow::~MainWindow()
@@ -187,23 +194,23 @@ void MainWindow::setPos(int new_pos)
 }
 //*************************************************************
 
-void MainWindow::on_actionLoad_triggered()
-{
-    QFile xmlFile(QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)"));
+void MainWindow::LoadFile(QString xmlFilePath){
 
-    if(!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)){
+    QFile xmlFileLoaded(xmlFilePath);
+    if(!xmlFileLoaded.open(QIODevice::ReadOnly | QIODevice::Text)){
         QMessageBox::critical(this,"Load Xml File Problem","Couldn't open xml file to load settings",QMessageBox::Ok);
+        qDebug() << "File not open" << xmlFileLoaded.error();
         return;
     }
     QXmlStreamReader xmlReader;
 
-    xmlReader.setDevice(&xmlFile);
+    xmlReader.setDevice(&xmlFileLoaded);
     xmlReader.readNext();
     xmlReader.readNext();
     while(!xmlReader.isEndDocument()){
         if(xmlReader.isStartElement()){
             QString name = xmlReader.name().toString();
-            if(name == "background"){
+            if(name == "backgroundcolor"){
                 QMessageBox::information(this,name,xmlReader.readElementText());
                 QString test=xmlReader.readElementText();
                 backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
@@ -219,7 +226,7 @@ void MainWindow::on_actionLoad_triggered()
                 xmlReader.readNext();
                 xmlReader.readNext();
             }
-            else if(name == "maxvelocity"){
+            else if(name == "maxspeed"){
                 QMessageBox::information(this,name,xmlReader.readElementText());
                 QString test3=xmlReader.readElementText();
                 //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
@@ -249,6 +256,14 @@ void MainWindow::on_actionLoad_triggered()
             return;
         }
     }
+}
+
+void MainWindow::on_actionLoad_triggered()
+{
+    QString xmlFile(QFileDialog::getOpenFileName(this,tr("Open File"),"../Vr6preparation/","All Files(*.*);;XML File (*.xml)"));
+
+    LoadFile(xmlFile);
+
 }
 
 void MainWindow::on_actionExit_triggered()
