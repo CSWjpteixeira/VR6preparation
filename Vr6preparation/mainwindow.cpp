@@ -31,10 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     p_init = -56;
     p_end = 139;
-    connect(timer,SIGNAL(timeout()),this,SLOT(update()));
+
     //connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
-
-
 
 
     //**new
@@ -47,8 +45,13 @@ MainWindow::MainWindow(QWidget *parent) :
     settings.endGroup();
     LoadFile(xmlPath);
 
+    //this->setStyleSheet(backgroundcolor);
 
+    //p_init = -56;
+    //p_end = 139;
+   // connect(timer,SIGNAL(timeout()),this,SLOT(update()));          /*here*/
     this->setStyleSheet(backgroundcolor);
+
 
 
 
@@ -87,11 +90,8 @@ void MainWindow::paintEvent(QPaintEvent *)
         QPoint(-40,-40)
 
     };
-    int dim = qMin(width()/2,height()/2);
-    //int R_color,G_color,B_color;
 
-    QPixmap *pix = new QPixmap(351,241);
-    QPainter *painter = new QPainter(pix);
+    int dim = qMin(width()/2,height()/2);
 
     int R_color, G_color, B_color;
 
@@ -109,6 +109,8 @@ void MainWindow::paintEvent(QPaintEvent *)
     QStringRef subString3(&needlecolor,y+1,z-y-1);
     B_color=subString3.toInt();
     //qDebug() << B_color;
+    QPixmap *pix = new QPixmap(351,241);
+    QPainter *painter = new QPainter(pix);
 
     QColor needCol(R_color,G_color,B_color);
     QColor sc_Col(255,255,255);
@@ -205,20 +207,8 @@ void MainWindow::paintEvent(QPaintEvent *)
         }
     }
 
-
+connect(timer,SIGNAL(timeout()),this,SLOT(update()));
 }
-//**************************************************************
-void MainWindow::setPos(int new_pos)
-{    
-    if(new_pos!=p_end)
-    {
-        p_end = new_pos;
-    }
-    emit valueChanged(new_pos);
-
-
-}
-//*************************************************************
 
 void MainWindow::LoadFile(QString xmlFilePath){
 
@@ -391,6 +381,7 @@ void MainWindow::on_playBtn_clicked()
         dataTimer->stop();
         ui->playBtn->setText("Resume");
         timer->stop();
+
     }
 
 

@@ -35,7 +35,7 @@ public:
     void LoadFile(QString xmlFilePath);
 
 public slots:
-    void setPos(int new_pos);
+    //void setPos(int new_pos);
 
 private slots:
     void makePlot();

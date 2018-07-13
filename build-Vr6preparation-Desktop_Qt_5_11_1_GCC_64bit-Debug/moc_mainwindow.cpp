@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[13];
-    char stringdata0[214];
+    QByteArrayData data[11];
+    char stringdata0[199];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,21 +34,19 @@ static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
 QT_MOC_LITERAL(1, 11, 12), // "valueChanged"
 QT_MOC_LITERAL(2, 24, 0), // ""
-QT_MOC_LITERAL(3, 25, 6), // "setPos"
-QT_MOC_LITERAL(4, 32, 7), // "new_pos"
-QT_MOC_LITERAL(5, 40, 8), // "makePlot"
-QT_MOC_LITERAL(6, 49, 18), // "on_playBtn_clicked"
-QT_MOC_LITERAL(7, 68, 23), // "on_actionLoad_triggered"
-QT_MOC_LITERAL(8, 92, 23), // "on_actionExit_triggered"
-QT_MOC_LITERAL(9, 116, 34), // "on_actionHideSpeedometer_trig..."
-QT_MOC_LITERAL(10, 151, 27), // "on_actionHidePlot_triggered"
-QT_MOC_LITERAL(11, 179, 24), // "on_actionErase_triggered"
-QT_MOC_LITERAL(12, 204, 9) // "clearData"
+QT_MOC_LITERAL(3, 25, 8), // "makePlot"
+QT_MOC_LITERAL(4, 34, 18), // "on_playBtn_clicked"
+QT_MOC_LITERAL(5, 53, 23), // "on_actionLoad_triggered"
+QT_MOC_LITERAL(6, 77, 23), // "on_actionExit_triggered"
+QT_MOC_LITERAL(7, 101, 34), // "on_actionHideSpeedometer_trig..."
+QT_MOC_LITERAL(8, 136, 27), // "on_actionHidePlot_triggered"
+QT_MOC_LITERAL(9, 164, 24), // "on_actionErase_triggered"
+QT_MOC_LITERAL(10, 189, 9) // "clearData"
 
     },
-    "MainWindow\0valueChanged\0\0setPos\0new_pos\0"
-    "makePlot\0on_playBtn_clicked\0"
-    "on_actionLoad_triggered\0on_actionExit_triggered\0"
+    "MainWindow\0valueChanged\0\0makePlot\0"
+    "on_playBtn_clicked\0on_actionLoad_triggered\0"
+    "on_actionExit_triggered\0"
     "on_actionHideSpeedometer_triggered\0"
     "on_actionHidePlot_triggered\0"
     "on_actionErase_triggered\0clearData"
@@ -61,7 +59,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -69,24 +67,22 @@ static const uint qt_meta_data_MainWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   64,    2, 0x06 /* Public */,
+       1,    1,   59,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    1,   67,    2, 0x0a /* Public */,
-       5,    0,   70,    2, 0x08 /* Private */,
-       6,    0,   71,    2, 0x08 /* Private */,
-       7,    0,   72,    2, 0x08 /* Private */,
-       8,    0,   73,    2, 0x08 /* Private */,
-       9,    0,   74,    2, 0x08 /* Private */,
-      10,    0,   75,    2, 0x08 /* Private */,
-      11,    0,   76,    2, 0x08 /* Private */,
-      12,    0,   77,    2, 0x08 /* Private */,
+       3,    0,   62,    2, 0x08 /* Private */,
+       4,    0,   63,    2, 0x08 /* Private */,
+       5,    0,   64,    2, 0x08 /* Private */,
+       6,    0,   65,    2, 0x08 /* Private */,
+       7,    0,   66,    2, 0x08 /* Private */,
+       8,    0,   67,    2, 0x08 /* Private */,
+       9,    0,   68,    2, 0x08 /* Private */,
+      10,    0,   69,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    2,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int,    4,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -106,15 +102,14 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 1: _t->setPos((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 2: _t->makePlot(); break;
-        case 3: _t->on_playBtn_clicked(); break;
-        case 4: _t->on_actionLoad_triggered(); break;
-        case 5: _t->on_actionExit_triggered(); break;
-        case 6: _t->on_actionHideSpeedometer_triggered(); break;
-        case 7: _t->on_actionHidePlot_triggered(); break;
-        case 8: _t->on_actionErase_triggered(); break;
-        case 9: _t->clearData(); break;
+        case 1: _t->makePlot(); break;
+        case 2: _t->on_playBtn_clicked(); break;
+        case 3: _t->on_actionLoad_triggered(); break;
+        case 4: _t->on_actionExit_triggered(); break;
+        case 5: _t->on_actionHideSpeedometer_triggered(); break;
+        case 6: _t->on_actionHidePlot_triggered(); break;
+        case 7: _t->on_actionErase_triggered(); break;
+        case 8: _t->clearData(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -154,13 +149,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 9;
     }
     return _id;
 }

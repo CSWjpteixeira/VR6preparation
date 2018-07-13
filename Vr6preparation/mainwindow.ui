@@ -24,7 +24,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -42,7 +42,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QGraphicsView" name="graphicsView"/>
+      <widget class="QGraphicsView" name="graphicsView">
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

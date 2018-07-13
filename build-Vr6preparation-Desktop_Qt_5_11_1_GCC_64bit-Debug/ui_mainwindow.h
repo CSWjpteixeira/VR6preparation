@@ -34,7 +34,7 @@ public:
     QAction *actionExit;
     QWidget *centralWidget;
     QCustomPlot *customPlot;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
     QPushButton *playBtn;
     QGraphicsView *graphicsView;
@@ -62,21 +62,22 @@ public:
         customPlot = new QCustomPlot(centralWidget);
         customPlot->setObjectName(QStringLiteral("customPlot"));
         customPlot->setGeometry(QRect(380, 10, 371, 351));
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(10, 10, 361, 351));
-        verticalLayout = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(centralWidget);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(10, 10, 361, 351));
+        verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        playBtn = new QPushButton(widget);
+        playBtn = new QPushButton(layoutWidget);
         playBtn->setObjectName(QStringLiteral("playBtn"));
 
         verticalLayout->addWidget(playBtn);
 
-        graphicsView = new QGraphicsView(widget);
+        graphicsView = new QGraphicsView(layoutWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
+        graphicsView->setAutoFillBackground(true);
 
         verticalLayout->addWidget(graphicsView);
 
