@@ -268,60 +268,6 @@ void MainWindow::LoadFile(QString xmlFilePath){
         }
     }
 
-
-
-    xmlReader.readNext();
-    xmlReader.readNext();
-    while(!xmlReader.isEndDocument()){
-        if(xmlReader.isStartElement()){
-            QString name = xmlReader.name().toString();
-            if(name == "backgroundcolor"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-                QString test=xmlReader.readElementText();
-                backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
-                qDebug() << backgroundcolor;
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-            else if(name == "needlecolor"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-
-                QString test2=xmlReader.readElementText();
-                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
-                //qDebug() << backgroundcolor;
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-            else if(name == "maxspeed"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-                QString test3=xmlReader.readElementText();
-                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
-                //qDebug() << backgroundcolor;
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-            else if(name == "plotrange"){
-                QMessageBox::information(this,name,xmlReader.readElementText());
-                QString test4=xmlReader.readElementText();
-                //backgroundcolor="background-color: rgb"+test+";"; // REVER!!!!!!
-                //qDebug() << backgroundcolor;
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-            else {
-                xmlReader.readNext();
-                xmlReader.readNext();
-            }
-        }
-        else if(xmlReader.isEndElement()){
-            xmlReader.readNext();
-            xmlReader.readNext();
-        }
-        if(xmlReader.hasError()){
-            qDebug() << "XML Error: " << xmlReader.errorString().data();
-            return;
-        }
-    }
     clearData();
 }
 
