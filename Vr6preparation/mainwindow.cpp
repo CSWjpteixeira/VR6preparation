@@ -21,13 +21,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->customPlot->xAxis->setTicker(timeTicker);
     ui->customPlot->xAxis->setRange(0, 21);
     ui->customPlot->axisRect()->setupFullAxesBox();
-    ui->customPlot->yAxis->setRange(0, 10);
+    ui->customPlot->yAxis->setRange(0, 185);
 
     dataTimer = new QTimer(this);
 
     //******|VelStart|************************************************
-    //scene = new QGraphicsScene(this);
-   // ui->graphicsView->setScene(scene);
+
 
     p_init = -56;
     p_end = 139;
@@ -45,15 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     settings.endGroup();
     LoadFile(xmlPath);
 
-    //this->setStyleSheet(backgroundcolor);
-
-    //p_init = -56;
-    //p_end = 139;
-   // connect(timer,SIGNAL(timeout()),this,SLOT(update()));          /*here*/
     this->setStyleSheet(backgroundcolor);
-
-
-
 
 }
 
@@ -64,7 +55,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::makePlot(){
 
-    key = plotTimer.elapsed()/1000.0; // time elapsed since start of demo, in seconds
+    key = plotTimer.elapsed()/700.0; // time elapsed since start of demo, in seconds
     double lastPointKey = 0;
     if(key<plotrange){
         ui->customPlot->xAxis->setRange(0, plotrange);
@@ -73,7 +64,8 @@ void MainWindow::makePlot(){
         ui->customPlot->xAxis->setRange(key, plotrange, Qt::AlignRight);
     }
     if (key-lastPointKey > 0.5) {
-      ui->customPlot->graph(0)->addData(key, abs((double)10*qSin(key/0.3843)));
+      //ui->customPlot->graph(0)->addData(key, abs((double)175*qSin(key/0.3843)));
+      ui->customPlot->graph(0)->addData(key, p_init+46);
       ui->customPlot->graph(0)->rescaleValueAxis(true);
       lastPointKey = key;
     }    
@@ -156,7 +148,7 @@ void MainWindow::paintEvent(QPaintEvent *)
         painter->setPen(Qt::NoPen);
         painter->setBrush(needCol);
         painter->save();
-        painter->rotate(p_init);                  //alterhere
+        painter->rotate(p_init);
         painter->drawPolygon(needle,3);
         scene->addPixmap(*pix);
         painter->restore();
@@ -170,6 +162,7 @@ void MainWindow::paintEvent(QPaintEvent *)
             {
                 painter->setRenderHint(QPainter::Antialiasing);
                 painter->drawText(-120,45,QString::number(i*20));
+
             }
 
         }
@@ -207,8 +200,10 @@ void MainWindow::paintEvent(QPaintEvent *)
         }
     }
 
-connect(timer,SIGNAL(timeout()),this,SLOT(update()));
+connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
+
 }
+//******************************************************************************************************************************************
 
 void MainWindow::LoadFile(QString xmlFilePath){
 
@@ -366,7 +361,7 @@ void MainWindow::on_playBtn_clicked()
         QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
         dataTimer->start(0);
 
-        timer->start(70);
+        //timer->start(70);
         //count++;
     }
     else if(ui->playBtn->text()=="Resume"){
@@ -374,7 +369,7 @@ void MainWindow::on_playBtn_clicked()
         ui->playBtn->setText("Pause");
         dataTimer->start(0);
 
-         timer->start(70);/*Resume the veloci*/
+        // timer->start(70);/*Resume the veloci*/
     }
     else if(ui->playBtn->text()=="Pause"){
         qWarning("Paused");
@@ -391,11 +386,11 @@ void MainWindow::clearData(){
 
     qWarning("Data Cleared");
     ui->customPlot->xAxis->setRange(0, 21);
-    ui->customPlot->yAxis->setRange(0, 10);
+    ui->customPlot->yAxis->setRange(0, 185);
     ui->customPlot->graph(0)->data()->clear();
     ui->customPlot->replot();
     plotTimer.restart();
-    timer->stop();
+    //timer->stop();
     dataTimer->stop();
     ui->playBtn->setText("Play");
     key=0;

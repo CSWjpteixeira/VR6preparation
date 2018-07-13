@@ -80,7 +80,7 @@ static const uint qt_meta_data_MainWindow[] = {
       10,    0,   69,    2, 0x08 /* Private */,
 
  // signals: parameters
-    QMetaType::Void, QMetaType::Int,    2,
+    QMetaType::Void, QMetaType::Double,    2,
 
  // slots: parameters
     QMetaType::Void,
@@ -101,7 +101,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         MainWindow *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 0: _t->valueChanged((*reinterpret_cast< double(*)>(_a[1]))); break;
         case 1: _t->makePlot(); break;
         case 2: _t->on_playBtn_clicked(); break;
         case 3: _t->on_actionLoad_triggered(); break;
@@ -115,7 +115,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (MainWindow::*)(int );
+            using _t = void (MainWindow::*)(double );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MainWindow::valueChanged)) {
                 *result = 0;
                 return;
@@ -161,7 +161,7 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void MainWindow::valueChanged(int _t1)
+void MainWindow::valueChanged(double _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);

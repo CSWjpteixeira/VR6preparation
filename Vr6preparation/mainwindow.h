@@ -56,15 +56,16 @@ private slots:
 
     void clearData();
 
+
 private:
     Ui::MainWindow *ui;
 
     QVector<double> qv_x,qv_y;
-    int p_init;
-    int p_end;
+    double p_init;
+    double p_end;
 
     QGraphicsScene *scene;
-
+    MainWindow *a;
 
 
 
@@ -73,7 +74,7 @@ protected:
     //QColor needcol(int, int, int);
 
 signals:
-    void valueChanged(int);
+    void valueChanged(double);
 };
 
 #endif // MAINWINDOW_H
