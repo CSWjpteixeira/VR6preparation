@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <defaultsettings>
 	<backgroundsettings>	
-		<backgroundcolor>(150,150,150)</backgroundcolor>
+		<backgroundcolor>(50,50,100)</backgroundcolor>
 	</backgroundsettings>
 	<needlesettings>	
 		<needlecolor>(50,1,255)</needlecolor>

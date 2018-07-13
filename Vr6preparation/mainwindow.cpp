@@ -16,18 +16,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
     menuBar()->setNativeMenuBar(false);
 
-    QSettings settings("../Vr6preparation/default.ini", QSettings::IniFormat);
-    settings.beginGroup("DefaultPath");
-    QString xmlPath = settings.value("Path","").toString();
-    settings.endGroup();
-    LoadFile(xmlPath);
-
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
     ui->customPlot->xAxis->setTicker(timeTicker);
     ui->customPlot->xAxis->setRange(0, plotrange);
     ui->customPlot->axisRect()->setupFullAxesBox();
-    ui->customPlot->yAxis->setRange(0, 185);
+    ui->customPlot->yAxis->setRange(0, maxspeed);
 
     dataTimer = new QTimer(this);
 
@@ -42,6 +36,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //**new
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
+
+    QSettings settings("../Vr6preparation/default.ini", QSettings::IniFormat);
+    settings.beginGroup("DefaultPath");
+    QString xmlPath = settings.value("Path","").toString();
+    settings.endGroup();
+    LoadFile(xmlPath);
 
     int Rbcol, Gbcol, Bbcol;
 
@@ -269,6 +269,9 @@ void MainWindow::LoadFile(QString xmlFilePath){
     }
 
     clearData();
+    this->setStyleSheet(backgroundcolor);
+    ui->customPlot->xAxis->setRange(0, plotrange);
+    ui->customPlot->yAxis->setRange(0, maxspeed);
 }
 
 void MainWindow::on_actionLoad_triggered()
@@ -349,7 +352,7 @@ void MainWindow::on_playBtn_clicked()
 void MainWindow::clearData(){
 
     qWarning("Data Cleared");
-    ui->customPlot->xAxis->setRange(0, 21);
+    ui->customPlot->xAxis->setRange(0, plotrange);
     ui->customPlot->yAxis->setRange(0, 185);
     ui->customPlot->graph(0)->data()->clear();
     ui->customPlot->replot();
