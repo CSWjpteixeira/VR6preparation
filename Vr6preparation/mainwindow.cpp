@@ -16,17 +16,22 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
     menuBar()->setNativeMenuBar(false);
 
+    QSettings settings("../Vr6preparation/default.ini", QSettings::IniFormat);
+    settings.beginGroup("DefaultPath");
+    QString xmlPath = settings.value("Path","").toString();
+    settings.endGroup();
+    LoadFile(xmlPath);
+
     QSharedPointer<QCPAxisTickerTime> timeTicker(new QCPAxisTickerTime);
     timeTicker->setTimeFormat("%h:%m:%s");
     ui->customPlot->xAxis->setTicker(timeTicker);
-    ui->customPlot->xAxis->setRange(0, 21);
+    ui->customPlot->xAxis->setRange(0, plotrange);
     ui->customPlot->axisRect()->setupFullAxesBox();
     ui->customPlot->yAxis->setRange(0, 185);
 
     dataTimer = new QTimer(this);
 
     //******|VelStart|************************************************
-
 
     p_init = -56;
     p_end = 139;
@@ -38,11 +43,24 @@ MainWindow::MainWindow(QWidget *parent) :
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
 
-    QSettings settings("../Vr6preparation/default.ini", QSettings::IniFormat);
-    settings.beginGroup("DefaultPath");
-    QString xmlPath = settings.value("Path","").toString();
-    settings.endGroup();
-    LoadFile(xmlPath);
+    int Rbcol, Gbcol, Bbcol;
+
+    int a= backgroundcolor.indexOf('(');
+    int b= backgroundcolor.indexOf(',',a+1);
+    QStringRef subString(&backgroundcolor,a+1,b-a-1);
+    Rbcol=subString.toInt();
+    qDebug() << Rbcol;
+
+    int c= backgroundcolor.indexOf(',',b+1);
+    QStringRef subString2(&backgroundcolor,b+1,c-b-1);
+    Gbcol=subString2.toInt();
+    qDebug() << Gbcol;
+
+    int d= backgroundcolor.indexOf(')',c+1);
+    QStringRef subString3(&backgroundcolor,c+1,d-c-1);
+    Bbcol=subString3.toInt();
+    qDebug() << Bbcol;
+
 
     this->setStyleSheet(backgroundcolor);
 
