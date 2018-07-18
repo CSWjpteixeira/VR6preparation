@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGraphicsView>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -33,11 +34,11 @@ public:
     QAction *actionHidePlot;
     QAction *actionExit;
     QWidget *centralWidget;
-    QCustomPlot *customPlot;
-    QWidget *layoutWidget;
+    QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
     QPushButton *playBtn;
     QGraphicsView *graphicsView;
+    QCustomPlot *customPlot;
     QStatusBar *statusBar;
     QMenuBar *menuBar;
     QMenu *menuOptions;
@@ -46,6 +47,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
+        MainWindow->setEnabled(true);
         MainWindow->resize(772, 423);
         actionLoad = new QAction(MainWindow);
         actionLoad->setObjectName(QStringLiteral("actionLoad"));
@@ -59,27 +61,36 @@ public:
         actionExit->setObjectName(QStringLiteral("actionExit"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        customPlot = new QCustomPlot(centralWidget);
-        customPlot->setObjectName(QStringLiteral("customPlot"));
-        customPlot->setGeometry(QRect(380, 10, 371, 351));
-        layoutWidget = new QWidget(centralWidget);
-        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(10, 10, 361, 351));
-        verticalLayout = new QVBoxLayout(layoutWidget);
+        gridLayout = new QGridLayout(centralWidget);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        playBtn = new QPushButton(layoutWidget);
+        verticalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        playBtn = new QPushButton(centralWidget);
         playBtn->setObjectName(QStringLiteral("playBtn"));
 
         verticalLayout->addWidget(playBtn);
 
-        graphicsView = new QGraphicsView(layoutWidget);
+        graphicsView = new QGraphicsView(centralWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
+        graphicsView->setEnabled(true);
+        graphicsView->setMaximumSize(QSize(359, 318));
         graphicsView->setAutoFillBackground(true);
 
         verticalLayout->addWidget(graphicsView);
+
+
+        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
+
+        customPlot = new QCustomPlot(centralWidget);
+        customPlot->setObjectName(QStringLiteral("customPlot"));
+        customPlot->setEnabled(true);
+        customPlot->setMaximumSize(QSize(371, 351));
+
+        gridLayout->addWidget(customPlot, 0, 1, 1, 1);
 
         MainWindow->setCentralWidget(centralWidget);
         statusBar = new QStatusBar(MainWindow);

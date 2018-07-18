@@ -72,7 +72,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::makePlot(){
-
+    qDebug() << plotTimer;
     key = plotTimer.elapsed()/700.0; // time elapsed since start of demo, in seconds
     double lastPointKey = 0;
     if(key<plotrange){
@@ -135,34 +135,7 @@ void MainWindow::paintEvent(QPaintEvent *)
 //****************************************************
 
     if(p_init < p_end)
-    {
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(needCol);
-    painter->save();
-    painter->rotate(p_init);
-    painter->drawPolygon(needle,3);
-    scene->addPixmap(*pix);
-    painter->restore();
-    painter->setPen(sc_Col);
-
-
-      for(int i = 0; i <10; i++)
-    {
-          painter->drawLine(-88,0,-96,0);
-          painter->rotate(20.0);
-          for(int j = 0;j<10; j++)
-          {
-          painter->setRenderHint(QPainter::Antialiasing);
-          painter->drawText(-120,45,QString::number(i*20));
-          }
-
-
-    }
-    p_init++;
-    scene->addPixmap(*pix);
-//****CONDI-2*****************
-  }else if(p_init > p_end)
-    {
+        {
         painter->setPen(Qt::NoPen);
         painter->setBrush(needCol);
         painter->save();
@@ -172,55 +145,82 @@ void MainWindow::paintEvent(QPaintEvent *)
         painter->restore();
         painter->setPen(sc_Col);
 
-        for(int i = 0; i <10; i++)
+
+          for(int i = 0; i <10; i++)
         {
-            painter->drawLine(-88,0,-96,0);
-            painter->rotate(20.0);
-            for(int j = 0;j<10; j++)
+              painter->drawLine(-88,0,-96,0);
+              painter->rotate(20.0);
+              for(int j = 0;j<10; j++)
+              {
+              painter->setRenderHint(QPainter::Antialiasing);
+              painter->drawText(-120,45,QString::number(i*20));
+              }
+
+
+        }
+        p_init++;
+        scene->addPixmap(*pix);
+    //****CONDI-2*****************
+      }else if(p_init > p_end)
+        {
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(needCol);
+            painter->save();
+            painter->rotate(p_init);
+            painter->drawPolygon(needle,3);
+            scene->addPixmap(*pix);
+            painter->restore();
+            painter->setPen(sc_Col);
+
+            for(int i = 0; i <10; i++)
             {
+                painter->drawLine(-88,0,-96,0);
+                painter->rotate(20.0);
+                for(int j = 0;j<10; j++)
+                {
+                    painter->setRenderHint(QPainter::Antialiasing);
+                    painter->drawText(-120,45,QString::number(i*20));
+
+                }
+
+            }
+            p_init--;
+            scene->addPixmap(*pix);
+    //***CONDI-3******************
+        }else
+        {
+            painter->setPen(Qt::NoPen);
+            painter->setBrush(needCol);
+            painter->save();
+            painter->rotate(p_end);
+            painter->drawPolygon(needle,3);
+            scene->addPixmap(*pix);
+            painter->restore();
+            painter->setPen(sc_Col);
+
+            for(int i = 0; i <10; i++)
+            {
+                painter->drawLine(-88,0,-96,0);
+                painter->rotate(20.0);
+                for(int j = 0;j<10; j++)
+                {
                 painter->setRenderHint(QPainter::Antialiasing);
                 painter->drawText(-120,45,QString::number(i*20));
+                }
 
             }
-
-        }
-        p_init--;
-        scene->addPixmap(*pix);
-//***CONDI-3******************
-    }else
-    {
-        painter->setPen(Qt::NoPen);
-        painter->setBrush(needCol);
-        painter->save();
-        painter->rotate(p_end);
-        painter->drawPolygon(needle,3);
-        scene->addPixmap(*pix);
-        painter->restore();
-        painter->setPen(sc_Col);
-
-        for(int i = 0; i <10; i++)
-        {
-            painter->drawLine(-88,0,-96,0);
-            painter->rotate(20.0);
-            for(int j = 0;j<10; j++)
+            scene->addPixmap(*pix);
+            if(p_end>=-56)
             {
-            painter->setRenderHint(QPainter::Antialiasing);
-            painter->drawText(-120,45,QString::number(i*20));
+
+               p_end--;
+
             }
-
         }
-        scene->addPixmap(*pix);
-        if(p_end>=-56)
-        {
 
-           p_end--;
+    connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
 
-        }
     }
-
-connect(dataTimer,SIGNAL(timeout()),this,SLOT(update()));
-
-}
 //******************************************************************************************************************************************
 
 void MainWindow::LoadFile(QString xmlFilePath){
@@ -250,8 +250,8 @@ void MainWindow::LoadFile(QString xmlFilePath){
                 qDebug() << backgroundcolor;
             }
             else if(name == "needlecolor"){
-                QString test=xmlReader.text().toString();
-                needlecolor=test;
+                QString test1=xmlReader.text().toString();
+                needlecolor=test1;
 
                 qDebug() << needlecolor;
             }
@@ -318,16 +318,16 @@ void MainWindow::on_actionErase_triggered()
     clearData();
 }
 
-void MainWindow::on_playBtn_clicked()
+void MainWindow::on_playBtn_clicked()       //testar on_release()
 {
     if(ui->playBtn->text()=="Play"){
         qWarning("Started");
-        plotTimer.start();
+
         ui->playBtn->setText("Pause");
         // setup a timer that repeatedly calls makeplot
         QObject::connect(dataTimer, SIGNAL(timeout()), this, SLOT(makePlot()));
         dataTimer->start(0);
-
+        plotTimer.start();
         //timer->start(70);
         //count++;
     }

@@ -74,7 +74,7 @@ protected:
     //QColor needcol(int, int, int);
 
 signals:
-    void valueChanged(double);
+   // void valueChanged(double);
 };
 
 #endif // MAINWINDOW_H
